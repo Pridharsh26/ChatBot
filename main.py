@@ -8,6 +8,7 @@ from gtts import gTTS
 from pydub import AudioSegment
 from pydub.playback import play
 import io
+import pyttsx3
 
 # Gemini API Key
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
@@ -36,13 +37,18 @@ def get_gemini_response(question):
     return response.text
 
 # Convert text to speech and play
+# def speak(text):
+#     tts = gTTS(text=text, lang='en')
+#     fp = io.BytesIO()
+#     tts.write_to_fp(fp)
+#     fp.seek(0)
+#     audio = AudioSegment.from_file(fp, format="mp3")
+#     play(audio)
+
 def speak(text):
-    tts = gTTS(text=text, lang='en')
-    fp = io.BytesIO()
-    tts.write_to_fp(fp)
-    fp.seek(0)
-    audio = AudioSegment.from_file(fp, format="mp3")
-    play(audio)
+    engine = pyttsx3.init()
+    engine.say(text)
+    engine.runAndWait()
 
 # Streamlit UI
 st.set_page_config(page_title="Voice Gemini Bot")
